@@ -1,0 +1,17 @@
+extend ../layout/default
+
+block body
+
+  h2.mb-3 Update book
+  form(method='POST' action='update')
+    .form-group
+      label Title
+      br 
+      input.form-control(type='text' name='title' value=book.title)
+    .form-group
+      label Description
+      br
+      textarea.form-control(type='text' name='desc' rows='4')= book.desc
+    .form-group.d-flex.justify-content-between
+      a.btn.btn-outline-primary(href='/books') Back
+      button.btn.btn-primary Update

@@ -1,0 +1,20 @@
+extend ../layout/default
+
+block body
+  h2.mb-3 List Users
+  ul.list-group.mb-5
+    each user in users
+      li.list-group-item.d-flex
+        span.flex-grow-1= user.name
+        a.ml-3(href=`/users/${user.id}/edit`) Edit
+        a.ml-3(href=`/users/${user.id}/remove`) Remove
+  if(status === 'overLetter')
+    .alert.alert-danger(role='alert')
+      | The user name length must be not greater than 30 letters
+  h2.mb-3 Create an account
+  form(method='POST' action='/users/create')
+    .form-group
+      label Name*      
+      input.form-control(type='text' name='name' required="required")
+    .form-group.text-right
+      button.btn.btn-primary Create
