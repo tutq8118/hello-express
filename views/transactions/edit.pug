@@ -1,0 +1,19 @@
+extend ../layout/default
+
+block body
+
+  h2.mb-3 Update transaction
+  form(method='POST' action='update')
+    .form-group
+      label Select a book
+      select.form-control(name='bookTitle')
+        each book in books
+          option(value=book.title selected=book.title === transaction.bookTitle ? true : false)= book.title
+    .form-group
+      label Select an user
+      select.form-control(name='userName')
+        each user in users
+          option(value=user.name selected=user.name === transaction.userName ? true : false)= user.name
+    .form-group.d-flex.justify-content-between
+      a.btn.btn-outline-primary(href='/transactions') Back
+      button.btn.btn-primary Update
