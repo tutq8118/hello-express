@@ -4,7 +4,6 @@ const books = db.get("books").value();
 
 module.exports = {
   index: (request, response) => {
-    console.log('Cookies: ', request.cookies);
     response.render("books", {
       books
     });

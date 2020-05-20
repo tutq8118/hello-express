@@ -6,7 +6,6 @@
 const express = require("express");
 const app = express();
 
-const db = require('./db');
 const cookieParser = require('cookie-parser')
 
 const bodyParser = require("body-parser");
@@ -15,29 +14,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const usersRoute = require('./routes/user.route');
 const booksRoute = require('./routes/book.route');
 const transactionsRoute = require('./routes/transaction.route');
-
 const cookieMiddleware = require('./middlewares/cookie.middleware');
-
-app.use('/users', function(req, res, next) {
-  console.log(req.cookies);
-  next();
-}, usersRoute);
-app.use('/books', booksRoute);
-app.use('/transactions', transactionsRoute);
-app.use(cookieParser());
-
-app.use(express.static('public'));
 
 app.set("view engine", "pug");
 app.set("views", "./views");
 
+app.use(cookieParser());
+app.use(express.static('public'));
+
+app.use('/users', cookieMiddleware.visit, usersRoute);
+app.use('/books', cookieMiddleware.visit, booksRoute);
+app.use('/transactions', cookieMiddleware.visit, transactionsRoute);
+
 app.get("/", cookieMiddleware.visit, (request, response) => {
-  console.log(request.cookies);
   response.render("");
 });
-
-
-
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {

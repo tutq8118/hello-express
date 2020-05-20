@@ -4,7 +4,6 @@ const users = db.get("users").value();
 
 module.exports = {
   index: (request, response) => {
-    console.log(request.cookies);
     response.render("users", {
       users
     });
