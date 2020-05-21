@@ -37,6 +37,12 @@
       "bookTitle": "The Lord of the Rings",
       "userName": "Leo",
       "isCompleted": false
+    },
+    {
+      "id": "jZmnKbNuH",
+      "bookTitle": "The Godfather",
+      "userName": "Tu Tran",
+      "isCompleted": true
     }
   ]
 }

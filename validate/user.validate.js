@@ -5,14 +5,13 @@ const users = db.get("users").value();
 module.exports = {
   create: (req, res, next) => {
     const name = req.body.name;
-     if (name.length > 30) {
+    if (name.length > 30) {
       res.render("users", {
         users,
         status: 'overLetter'
       });
-    }
-    else {
-      next();  
+    } else {
+      next();
     }
   }
 }

@@ -10,7 +10,9 @@ const port = 8000;
 const cookieParser = require('cookie-parser')
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 const usersRoute = require('./routes/user.route');
 const booksRoute = require('./routes/book.route');
@@ -19,17 +21,33 @@ const cookieMiddleware = require('./middlewares/cookie.middleware');
 
 app.set("view engine", "pug");
 app.set("views", "./views");
+app.set('requestsCounter', 0);
 
 app.use(cookieParser());
 app.use(express.static('public'));
 
-app.use('/users', cookieMiddleware.visit, usersRoute);
-app.use('/books', cookieMiddleware.visit, booksRoute);
-app.use('/transactions', cookieMiddleware.visit, transactionsRoute);
+var count = 0;
 
-app.get("/", cookieMiddleware.visit, (request, response) => {
+app.get('*', (req, res, next) => {
+  if (!req.cookies.test) {
+    res.cookie('test', 1);
+    count = 0;
+  } else {
+    count++
+  }
+  res.locals.count = count;
+  next();
+}, cookieMiddleware.count);
+
+app.use('/users', usersRoute);
+app.use('/books', booksRoute);
+app.use('/transactions', transactionsRoute);
+
+app.get("/", (request, response) => {
   response.render("");
 });
+
+
 
 // listen for requests :)
 
