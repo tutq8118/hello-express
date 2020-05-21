@@ -5,7 +5,7 @@ module.exports = {
       var count = 0;
     }
     else {
-      count = parseInt(parseInt(count) + 1);
+      count ++;
     }
     console.log(count);
     next();
