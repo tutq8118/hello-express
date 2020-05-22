@@ -13,14 +13,14 @@ module.exports = {
     });
   },
   create: (request, response) => {
-    const userName = request.body.userName;
+    const userEmail = request.body.userEmail;
     const bookTitle = request.body.bookTitle;
-    if (bookTitle !== null && bookTitle !== "" && userName !== null && userName !== "") {
+    if (bookTitle !== null && bookTitle !== "" && userEmail !== null && userEmail !== "") {
       db.get("transactions")
         .push({
           id: shortid.generate(),
           bookTitle: bookTitle,
-          userName: userName,
+          userEmail: userEmail,
           isCompleted: false
         })
         .write();
@@ -50,17 +50,15 @@ module.exports = {
   update: (request, response) => {
     const id = request.params.id;
     const newBookTitle = request.body.bookTitle;
-    const newUserName = request.body.userName;
+    const newUserEmail = request.body.userEmail;
     db.get("transactions")
       .find({ id: id })
-      .assign({ bookTitle: newBookTitle, userName: newUserName })
+      .assign({ bookTitle: newBookTitle, userEmail: newUserEmail })
       .write();
     response.redirect("/transactions");
   },
   complete: (request, response) => {
     const id = request.params.id;
-    const newBookTitle = request.body.bookTitle;
-    const newUserName = request.body.userName;
     
     const isCompleted = db.get("transactions").find({ id: id }).value() ? db.get("transactions").find({ id: id }).value().isCompleted : null;
     if (isCompleted === null) {
