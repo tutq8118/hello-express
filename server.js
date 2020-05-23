@@ -17,31 +17,26 @@ app.use(bodyParser.urlencoded({
 const usersRoute = require('./routes/user.route');
 const booksRoute = require('./routes/book.route');
 const transactionsRoute = require('./routes/transaction.route');
+const authRoute = require('./routes/auth.route');
+
+const authMiddleware = require('./middlewares/auth.middleware');
 const cookieMiddleware = require('./middlewares/cookie.middleware');
 
 app.set("view engine", "pug");
 app.set("views", "./views");
-app.set('requestsCounter', 0);
 
 app.use(cookieParser());
+// app.use(express.static(__dirname + 'public'));
 app.use(express.static('public'));
 
-var count = 0;
 
-app.get('*', (req, res, next) => {
-  if (!req.cookies.test) {
-    res.cookie('test', 1);
-    count = 0;
-  } else {
-    count++
-  }
-  res.locals.count = count;
-  next();
-}, cookieMiddleware.count);
+app.use(cookieMiddleware.check);
 
-app.use('/users', usersRoute);
+
+app.use('/users', authMiddleware.requireAuth, usersRoute);
 app.use('/books', booksRoute);
-app.use('/transactions', transactionsRoute);
+app.use('/transactions', authMiddleware.requireAuth, transactionsRoute);
+app.use('/auth', authRoute);
 
 app.get("/", (request, response) => {
   response.render("");

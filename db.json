@@ -14,34 +14,43 @@
   "users": [
     {
       "id": "iT2t-ycNb",
-      "name": "Test"
+      "name": "Test",
+      "password": "123123",
+      "email": "test@gmail.com",
+      "isAdmin": false
     },
     {
-      "id": "8lzkaggVr",
-      "name": "Leo"
+      "id": "iT22-ycNb",
+      "name": "Vinh Râu",
+      "password": "123123",
+      "email": "vinh@gmail.com",
+      "isAdmin": false
     },
     {
       "id": "rdu0iqH75",
-      "name": "Tu Tran"
+      "name": "Tu Tran",
+      "password": "123123",
+      "email": "admin@gmail.com",
+      "isAdmin": true
     }
   ],
   "transactions": [
     {
-      "id": "qrcemNcky",
+      "id": "vSD0V321w",
       "bookTitle": "The Godfather",
-      "userName": "Test",
-      "isCompleted": true
-    },
-    {
-      "id": "5xg-ln5MK",
-      "bookTitle": "The Lord of the Rings",
-      "userName": "Leo",
+      "userEmail": "vinh@gmail.com",
       "isCompleted": false
     },
     {
-      "id": "jZmnKbNuH",
+      "id": "_iqBjVsu0",
+      "bookTitle": "The Lord of the Rings",
+      "userEmail": "vinh@gmail.com",
+      "isCompleted": false
+    },
+    {
+      "id": "vrDdSXhv7",
       "bookTitle": "The Godfather",
-      "userName": "Tu Tran",
+      "userEmail": "test@gmail.com",
       "isCompleted": true
     }
   ]
