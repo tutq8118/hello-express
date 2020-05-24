@@ -15,22 +15,25 @@
     {
       "id": "iT2t-ycNb",
       "name": "Test",
-      "password": "4297f44b13955235245b2497399d7a93",
+      "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
       "email": "test@gmail.com",
+      "wrongLoginCount": 0,
       "isAdmin": false
     },
     {
       "id": "iT22-ycNb",
       "name": "Vinh Râu",
-      "password": "4297f44b13955235245b2497399d7a93",
+      "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
       "email": "vinh@gmail.com",
+      "wrongLoginCount": 0,
       "isAdmin": false
     },
     {
       "id": "rdu0iqH75",
       "name": "Tu Tran",
-      "password": "4297f44b13955235245b2497399d7a93",
+      "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
       "email": "admin@gmail.com",
+      "wrongLoginCount": 0,
       "isAdmin": true
     }
   ],
