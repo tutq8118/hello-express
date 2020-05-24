@@ -25,7 +25,7 @@ const cookieMiddleware = require('./middlewares/cookie.middleware');
 app.set("view engine", "pug");
 app.set("views", "./views");
 
-app.use(cookieParser());
+app.use(cookieParser('ZfFFUerWN8'));
 // app.use(express.static(__dirname + 'public'));
 app.use(express.static('public'));
 

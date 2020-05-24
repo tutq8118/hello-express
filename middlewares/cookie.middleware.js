@@ -8,8 +8,9 @@ module.exports = {
     next();
   },
   check: (req, res, next) => {
-    res.locals.curentUserEmail = req.cookies.userID !== null && req.cookies.userID !== undefined ? db.get('users').find({id: req.cookies.userID}).value().email : '';
-    res.locals.isAdmin = req.cookies.userID !== null && req.cookies.userID !== undefined ? db.get('users').find({id: req.cookies.userID}).value().isAdmin : false;
+    res.locals.curentUserEmail = req.signedCookies.userID !== null && req.signedCookies.userID !== undefined ? db.get('users').find({id: req.signedCookies.userID}).value().email : '';
+    res.locals.isAdmin = req.signedCookies.userID !== null && req.signedCookies.userID !== undefined ? db.get('users').find({id: req.signedCookies.userID}).value().isAdmin : false;
+    res.locals.userName = req.signedCookies.userID !== null && req.signedCookies.userID !== undefined? db.get('users').find({id: req.signedCookies.userID}).value().name: null;
     next();
   }
 }

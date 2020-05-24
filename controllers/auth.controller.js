@@ -52,8 +52,9 @@ module.exports = {
     //     return;
     //   }
     // });
-
-    res.cookie('userID', user.id);
+    res.cookie('userID', user.id, {
+      signed: true
+    });
     res.redirect('/users');
   }
 }
