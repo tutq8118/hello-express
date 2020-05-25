@@ -3,9 +3,10 @@
 
 // we've started you off with Express (https://expressjs.com/)
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
+require('dotenv').config();
 const express = require("express");
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8080;
 
 const cookieParser = require('cookie-parser')
 
@@ -25,7 +26,7 @@ const cookieMiddleware = require('./middlewares/cookie.middleware');
 app.set("view engine", "pug");
 app.set("views", "./views");
 
-app.use(cookieParser('ZfFFUerWN8'));
+app.use(cookieParser(process.env.SESSION_SECRET));
 // app.use(express.static(__dirname + 'public'));
 app.use(express.static('public'));
 
@@ -41,8 +42,6 @@ app.use('/auth', authRoute);
 app.get("/", (request, response) => {
   response.render("");
 });
-
-
 
 // listen for requests :)
 
