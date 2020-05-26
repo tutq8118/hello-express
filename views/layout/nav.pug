@@ -16,6 +16,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
             a.nav-link(href='/transactions') Transactions
       .navbar__login.ml-3
         if (userName)
-          p.mb-0.navbar__login-text= userName
+          span.mb-0.navbar__login-text= userName
+          |, 
+          a(href="/auth/logout") Logout
         else
           a.navbar__login-link(href='/auth/login') Login

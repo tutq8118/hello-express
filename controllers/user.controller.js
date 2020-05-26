@@ -7,19 +7,7 @@ module.exports = {
     response.render("users", {
       users
     });
-  },
-  create: (req, res) => {
-    const name = req.body.name;
-    if (name !== null && name !== "") {
-      db.get("users")
-        .push({
-          id: shortid.generate(),
-          name: name
-        })
-        .write();
-      res.redirect("/users");
-    }
-  },
+  },  
   remove: (request, response) => {
     db.get("users")
       .remove({
