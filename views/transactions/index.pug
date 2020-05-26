@@ -3,6 +3,8 @@ extend ../layout/default
 block body
 
   h2.mb-3 List Transactions
+  if (!transactions)
+    p.text-secondary You have no transaction
   ul.list-group.mb-5
     each transaction in transactions
       if (isAdmin === true)
@@ -26,12 +28,6 @@ block body
               |
               | - 
               strong.text-info= transaction.userEmail
-            a.mr-3.btn-edit(href=`transactions/${transaction.id}/edit`) Edit
-            a.mr-3(href=`transactions/${transaction.id}/remove`) Remove
-            if (transaction.isCompleted === false)
-              a(href=`transactions/${transaction.id}/complete`) Complete
-            else 
-              a(href=`transactions/${transaction.id}/complete`) Uncomplete
 
   h2.mb-3 Create a new transaction
   form(method='POST' action='transactions/create')
@@ -43,7 +39,10 @@ block body
     .form-group
       label Select an user
       select.form-control(name='userEmail')
-        each user in users
-          option(value=user.email)= user.email
+        if (isAdmin)
+          each user in users
+            option(value=user.email)= user.email
+        else
+          option(value=curentUserEmail)= curentUserEmail
     .form-group.text-right
       button.btn.btn-primary Create

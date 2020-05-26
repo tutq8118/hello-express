@@ -36,7 +36,7 @@ module.exports = {
       res.cookie('userID', user.id, {
         signed: true
       });
-      res.redirect("/books");
+      res.redirect("/");
     }
   },
   postLogin: (req, res) => {
@@ -102,6 +102,6 @@ module.exports = {
     res.cookie('userID', user.id, {
       signed: true
     });
-    res.redirect('/users');
+    res.redirect('/');
   }
 }
