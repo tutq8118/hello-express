@@ -18,12 +18,15 @@ module.exports = {
     const name = req.body.name;
     const email = req.body.email;
     const pwd = req.body.pwd;
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashPwd = bcrypt.hashSync(pwd, salt);
     if (pwd !== null && pwd !== "") {
       db.get("users")
         .push({
           id: shortid.generate(),
           name: name ? name: email.substring(0, email.lastIndexOf("@")),
-          password: pwd,
+          password: hashPwd,
           email: email,
           wrongLoginCount: 0,
           isAdmin: false
@@ -42,6 +45,9 @@ module.exports = {
     var hashedPassword = md5(password);
     var user = db.get('users').find({email: email}).value();
     
+    res.locals.email = email;
+    res.locals.password = password;
+
     const msg = {
       to: email,
       from: 'trtu81@gmail.com',
@@ -93,17 +99,6 @@ module.exports = {
 
     user.wrongLoginCount = 0;
     
-    // Async 
-    // bcrypt.compare(password, user.password, function(err, result) {
-    //   if (!result) {
-    //     res.render('auth/login', {
-    //       errors: [
-    //         "Wrong password"
-    //       ]
-    //     });
-    //     return;
-    //   }
-    // });
     res.cookie('userID', user.id, {
       signed: true
     });

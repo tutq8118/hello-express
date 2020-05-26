@@ -4,7 +4,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
       a.navbar-brand(href='/') HelloExpress
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
       span.navbar-toggler-icon
-    #navbarNav.collapse.navbar-collapse.justify-content-beetwen
+    #navbarNav.collapse.navbar-collapse.justify-content-between
       ul.navbar-nav.flex-grow-1
         li.nav-item
           a.nav-link(href='/books') Books
@@ -14,7 +14,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
         if (curentUserEmail)
           li.nav-item
             a.nav-link(href='/transactions') Transactions
-      .navbar__login.ml-3
+      .navbar__login.ml-lg-3
         if (userName)
           span.mb-0.navbar__login-text= userName
           |, 
