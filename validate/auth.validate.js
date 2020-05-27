@@ -5,14 +5,15 @@ const users = db.get("users").value();
 module.exports = {
   create: (req, res, next) => {
     const name = req.body.name;
-     if (name.length > 30) {
-      res.render("users", {
+    if (name.length > 30) {
+      res.render("auth/login", {
         users,
-        status: 'overLetter'
+        createdErrors: [
+          'Your name must be less than 31 letters'
+        ]
       });
-    }
-    else {
-      next();  
+    } else {
+      next();
     }
   }
 }

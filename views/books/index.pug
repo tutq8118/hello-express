@@ -6,18 +6,25 @@ block body
     each book in books
       li.list-group-item.d-flex
         span.flex-grow-1= book.title
-        a.ml-3.btn-edit(href=`books/${book.id}/edit`) Edit
-        a.ml-3(href=`books/${book.id}/remove`) Remove
-
-  h2.mb-3 Create a new book
-  form(method='POST' action='books/create')
-    .form-group
-      label(for='book-title') Title*
-      input#book-title.form-control(type='text' name='title' required="required")
-    .form-group
-      label(for='book-desc') Description
-      textarea#book-desc.form-control(type='text' name='desc' rows='4')
-    .form-group.text-right
-      button.btn.btn-primary Create
- 
+        if (isAdmin)
+          a.ml-3.btn-edit(href=`books/${book.id}/edit`) Edit
+          a.ml-3(href=`books/${book.id}/remove`) Remove
+  if (totalPage > 1)
+    .d-flex.justify-content-center
+      - var n = 1;
+        ul.pagination.text-center
+          while n < totalPage + 1
+            li.page-item
+              a.page-link(href=`/books?page=${n}`)= n++
     
+  if (isAdmin)
+    h2.mb-3 Create a new book
+    form(method='POST' action='books/create')
+      .form-group
+        label(for='book-title') Title*
+        input#book-title.form-control(type='text' name='title' required="required")
+      .form-group
+        label(for='book-desc') Description
+        textarea#book-desc.form-control(type='text' name='desc' rows='4')
+      .form-group.text-right
+        button.btn.btn-primary Create

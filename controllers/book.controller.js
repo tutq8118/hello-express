@@ -1,12 +1,18 @@
 const db = require('../db');
 const shortid = require("shortid");
-const books = db.get("books").value();
 
 module.exports = {
   index: (request, response) => {
-    console.log('Cookies: ', request.cookies);
+    var page = request.query.page || 1;
+    var perPage = 8;
+    var start = (page - 1)*perPage;
+    var end = page*perPage;
+    const books = db.get("books").value().slice(start, end);
+    const totalPage = Math.floor(db.get("books").value().length/perPage) + 1;
     response.render("books", {
-      books
+      books,
+      perPage,
+      totalPage
     });
   },
   create: (request, response) => {

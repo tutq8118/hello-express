@@ -3,20 +3,31 @@ extend ../layout/default
 block body
 
   h2.mb-3 List Transactions
+  if (!transactions)
+    p.text-secondary You have no transaction
   ul.list-group.mb-5
     each transaction in transactions
-      li.list-group-item.d-flex(class=`${transaction.isCompleted === true ? 'text-muted': ''}`)
-        p.flex-grow-1
-          span= transaction.bookTitle
-          |
-          | - 
-          span= transaction.userName
-        a.mr-3.btn-edit(href=`transactions/${transaction.id}/edit`) Edit
-        a.mr-3(href=`transactions/${transaction.id}/remove`) Remove
-        if (transaction.isCompleted === false)
-          a(href=`transactions/${transaction.id}/complete`) Complete
-        else 
-          a(href=`transactions/${transaction.id}/complete`) Uncomplete
+      if (isAdmin === true)
+        li.list-group-item.d-flex(class=`${transaction.isCompleted === true ? 'text-muted': ''}`)
+          p.flex-grow-1
+            strong= transaction.bookTitle
+            |
+            | - 
+            strong.text-info= transaction.userEmail
+          a.mr-3.btn-edit(href=`transactions/${transaction.id}/edit`) Edit
+          a.mr-3(href=`transactions/${transaction.id}/remove`) Remove
+          if (transaction.isCompleted === false)
+            a(href=`transactions/${transaction.id}/complete`) Complete
+          else 
+            a(href=`transactions/${transaction.id}/complete`) Uncomplete
+      else
+        if (transaction.userEmail === curentUserEmail)
+          li.list-group-item.d-flex(class=`${transaction.isCompleted === true ? 'text-muted': ''}`)
+            p.flex-grow-1
+              strong= transaction.bookTitle
+              |
+              | - 
+              strong.text-info= transaction.userEmail
 
   h2.mb-3 Create a new transaction
   form(method='POST' action='transactions/create')
@@ -27,8 +38,11 @@ block body
           option(value=book.title)= book.title
     .form-group
       label Select an user
-      select.form-control(name='userName')
-        each user in users
-          option(value=user.name)= user.name
+      select.form-control(name='userEmail')
+        if (isAdmin)
+          each user in users
+            option(value=user.email)= user.email
+        else
+          option(value=curentUserEmail)= curentUserEmail
     .form-group.text-right
       button.btn.btn-primary Create
