@@ -16,7 +16,6 @@ block body
           while n < totalPage + 1
             li.page-item
               a.page-link(href=`/books?page=${n}`)= n++
-    
   if (isAdmin)
     h2.mb-3 Create a new book
     form(method='POST' action='books/create')
