@@ -1,0 +1,16 @@
+extend ../layout/default
+
+block body
+  h2.mb-3 Update Profile
+  form(method='POST' action='/profile/update' enctype="multipart/form-data")
+    .form-group
+      label Name
+      input.form-control(type='text' name='name' value=userName)
+    .form-group      
+      if (avatarUrl !== null && avatarUrl == '')
+        label(for='avatar-upload')
+          img(src=avatarUrl, alt=userName, width='80' height='80' style='object-fit: cover')
+      label(for='avatar-upload')
+      input.form-control-file#avatar-upload(type='file' name='avatar')
+    .form-group.text-right
+      button.btn.btn-primary Update
