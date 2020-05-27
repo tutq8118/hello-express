@@ -9,6 +9,13 @@ block body
         if (isAdmin)
           a.ml-3.btn-edit(href=`books/${book.id}/edit`) Edit
           a.ml-3(href=`books/${book.id}/remove`) Remove
+  if (totalPage > 1)
+    .d-flex.justify-content-center
+      - var n = 1;
+        ul.pagination.text-center
+          while n < totalPage + 1
+            li.page-item
+              a.page-link(href=`/books?page=${n}`)= n++
   if (isAdmin)
     h2.mb-3 Create a new book
     form(method='POST' action='books/create')
