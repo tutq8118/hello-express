@@ -258,7 +258,8 @@
       "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
       "email": "tutq8118@gmail.com",
       "wrongLoginCount": 0,
-      "isAdmin": false
+      "isAdmin": false,
+      "avatarUrl": ""
     },
     {
       "id": "iT22-ycNb",
@@ -266,7 +267,8 @@
       "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
       "email": "vinh@gmail.com",
       "wrongLoginCount": 0,
-      "isAdmin": false
+      "isAdmin": false,
+      "avatarUrl": ""
     },
     {
       "id": "rdu0iqH75",
@@ -283,7 +285,8 @@
       "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
       "email": "tutq3@fpt.com.vn",
       "wrongLoginCount": 0,
-      "isAdmin": false
+      "isAdmin": false,
+      "avatarUrl": ""
     },
     {
       "id": "TtQ02ihkj",
@@ -291,7 +294,8 @@
       "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
       "email": "anh.ht4@oude.edu.vn",
       "wrongLoginCount": 0,
-      "isAdmin": false
+      "isAdmin": false,
+      "avatarUrl": ""
     },
     {
       "id": "3qy1Mzp_B",
@@ -299,7 +303,8 @@
       "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
       "email": "leonardtranl@gyugugu",
       "wrongLoginCount": 0,
-      "isAdmin": false
+      "isAdmin": false,
+      "avatarUrl": ""
     },
     {
       "id": "CckY531Ff",
@@ -307,7 +312,8 @@
       "password": "$2b$10$0UZo2wvW8tIf5JwCG5edCOnGa3rE1/48EYws0pUUBoKs2LfFEFX3u",
       "email": "tony@gmail.com",
       "wrongLoginCount": 3,
-      "isAdmin": false
+      "isAdmin": false,
+      "avatarUrl": ""
     },
     {
       "id": "Q0X7W1vD3",
@@ -315,7 +321,8 @@
       "password": "$2b$10$REmq5uPnjtWjkAUFceYQHectQGB5PiKVF7AwIfz6EvH6nwnxoD/Dm",
       "email": "test@gmail.com",
       "wrongLoginCount": 0,
-      "isAdmin": false
+      "isAdmin": false,
+      "avatarUrl": ""
     }
   ],
   "transactions": [

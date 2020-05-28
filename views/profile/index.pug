@@ -7,7 +7,7 @@ block body
       label Name
       input.form-control(type='text' name='name' value=userName)
     .form-group      
-      if (avatarUrl !== null && avatarUrl == '')
+      if (avatarUrl)
         label(for='avatar-upload')
           img(src=avatarUrl, alt=userName, width='80' height='80' style='object-fit: cover')
       label(for='avatar-upload')
