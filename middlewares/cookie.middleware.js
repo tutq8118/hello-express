@@ -8,11 +8,19 @@ module.exports = {
     next();
   },
   check: (req, res, next) => {
-    const avartaUrl = db.get('users').find({id: req.signedCookies.userID}).value().avatarUrl;
-    res.locals.curentUserEmail = req.signedCookies.userID !== null && req.signedCookies.userID !== undefined ? db.get('users').find({id: req.signedCookies.userID}).value().email : '';
-    res.locals.isAdmin = req.signedCookies.userID !== null && req.signedCookies.userID !== undefined ? db.get('users').find({id: req.signedCookies.userID}).value().isAdmin : false;
-    res.locals.userName = req.signedCookies.userID !== null && req.signedCookies.userID !== undefined? db.get('users').find({id: req.signedCookies.userID}).value().name: null;
-    res.locals.avatarUrl = avartaUrl !== null && avartaUrl !== undefined && avartaUrl !== '' ? avartaUrl : 'https://cdn.glitch.com/0ded82f9-2581-4657-8e03-011ea567f797%2Fdefault-avatar.png';
+    res.locals.isAdmin = false;
+    res.locals.avatarUrl = 'https://cdn.glitch.com/0ded82f9-2581-4657-8e03-011ea567f797%2Fdefault-avatar.png';
+    if (req.signedCookies.userID === null || req.signedCookies.userID === undefined) {
+      next();
+      return;
+    }
+    var currentUser = db.get('users').find({id: req.signedCookies.userID}).value();
+    res.locals.curentUserEmail = currentUser.email;
+    res.locals.isAdmin = currentUser.isAdmin;
+    res.locals.userName = currentUser.name;
+    if (currentUser.avatarUrl) {
+      res.locals.avatarUrl = currentUser.avatarUrl;
+    }
     next();
   }
 }
