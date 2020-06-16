@@ -1,5 +1,11 @@
 const db = require('../db');
 const shortid = require("shortid");
+var cloudinary = require('cloudinary').v2;
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET 
+});
 
 module.exports = {
   index: (request, response) => {
@@ -51,10 +57,22 @@ module.exports = {
     const id = request.params.id;
     const newTitle = request.body.title;
     const newDesc = request.body.desc;
+    const image = request.file;
     db.get("books")
       .find({ id: id })
       .assign({ title: newTitle, desc: newDesc })
       .write();
-    response.redirect("/books");
+    // response.redirect("/books");
+
+    cloudinary.uploader.upload(image.path, { folder: "hello-express/covers/"}, 
+      function(error, result) {
+        db.get('books')
+        .find({id: id})
+        .assign({ 
+          coverUrl: result.secure_url
+        }).write();
+        response.redirect('back');
+
+    });
   }
 }

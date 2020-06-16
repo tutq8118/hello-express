@@ -87,7 +87,7 @@ module.exports = {
       return;
     }
 
-    if (!bcrypt.compareSync(password, user.password)) {     
+    if (!bcrypt.compareSync(password, user.password)) {
       user.wrongLoginCount ++;
       res.render('auth/login', {
         errors: [

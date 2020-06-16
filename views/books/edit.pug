@@ -3,7 +3,13 @@ extend ../layout/default
 block body
 
   h2.mb-3 Update book
-  form(method='POST' action='update')
+  form(method='POST' action='update' enctype="multipart/form-data")
+    .form-group      
+      if (book.coverUrl)
+        label(for='cover-upload')
+          img(src=book.coverUrl, alt=book.title, width='100' height='100' style='object-fit: cover')
+      label(for='cover-upload')
+      input.form-control-file#cover-upload(type='file' name='cover')
     .form-group
       label Title
       br 

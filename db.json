@@ -1,19 +1,16 @@
 {
   "books": [
     {
-      "id": "f2fbd5d2-004f-4b4f-835c-ff43be8326f4",
-      "title": "Fierce People",
-      "desc": "Nondisplaced fracture of medial cuneiform of left foot, subsequent encounter for fracture with delayed healing"
-    },
-    {
       "id": "2b81774a-f788-4e6b-b766-1ece9b34fe78",
       "title": "I Travel Alone",
-      "desc": "Retained (old) magnetic foreign body in vitreous body, unspecified eye"
+      "desc": "Retained (old) magnetic foreign body in vitreous body, unspecified eye",
+      "coverUrl": "https://res.cloudinary.com/tutq8118/image/upload/v1592321882/hello-express/covers/kkimmmwd0hjoup6ipwho.jpg"
     },
     {
       "id": "58782e55-d8ae-4b9a-bc2d-9d9e6d3e39ed",
       "title": "Kukuli",
-      "desc": "Puncture wound with foreign body of unspecified buttock"
+      "desc": "Puncture wound with foreign body of unspecified buttock",
+      "coverUrl": "https://res.cloudinary.com/tutq8118/image/upload/v1592322011/hello-express/covers/izx1rdxdawgnvgqmb5pd.jpg"
     },
     {
       "id": "c68ec5b8-f17d-44bc-8609-6ddc1e8292f7",
@@ -277,7 +274,7 @@
       "email": "admin@gmail.com",
       "wrongLoginCount": 0,
       "isAdmin": true,
-      "avatarUrl": "https://res.cloudinary.com/tutq8118/image/upload/v1590605777/hello-express/avatars/qhukb1ea3c8uifkovryu.jpg"
+      "avatarUrl": "https://res.cloudinary.com/tutq8118/image/upload/v1592321784/hello-express/avatars/l6yjootrxwgotfuzoxix.jpg"
     },
     {
       "id": "Z3nU91K_C",
