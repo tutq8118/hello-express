@@ -20,9 +20,11 @@ const booksRoute = require('./routes/book.route');
 const transactionsRoute = require('./routes/transaction.route');
 const authRoute = require('./routes/auth.route');
 const profileRoute = require('./routes/profile.route');
+const cartRoute = require('./routes/cart.route');
 
 const authMiddleware = require('./middlewares/auth.middleware');
 const cookieMiddleware = require('./middlewares/cookie.middleware');
+const sesstionMiddleware = require('./middlewares/sesstion.middleware');
 
 app.set("view engine", "pug");
 app.set("views", "./views");
@@ -31,12 +33,14 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(express.static('public'));
 
 app.use(cookieMiddleware.check);
+app.use(sesstionMiddleware.check);
 
 app.use('/users', authMiddleware.requireAuth, usersRoute);
 app.use('/books', booksRoute);
 app.use('/transactions', authMiddleware.requireAuth, transactionsRoute);
 app.use('/auth', authRoute);
 app.use('/profile', profileRoute);
+app.use('/cart', cartRoute);
 
 app.get("/", (request, response) => {
   response.render("");

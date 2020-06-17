@@ -35,3 +35,56 @@
         }
     }
 }
+
+.navbar {
+    &__cart {
+        position: relative;
+
+        ul.dropdown-cart {
+            min-width: 250px;
+            border: 2px solid #343434;
+            padding: 10px;
+            margin-top: 11px;
+            left: auto;
+            right: 0;
+
+            li {
+                .item {
+                    display: block;
+                    padding: 3px 10px;
+                    margin: 3px 0;
+                    &:hover {
+                        background-color: #c3c5c5;
+                    }
+                    &:after {
+                        visibility: hidden;
+                        display: block;
+                        font-size: 0;
+                        content: " ";
+                        clear: both;
+                        height: 0;
+                    }
+                }
+                .item-left {
+                    float: left;
+                    img {
+                        float: left;
+                    }
+                    span.item-info {
+                        float: left;
+                        margin-left: 10px;
+                        span {
+                            display: block;
+                        }
+                    }
+                }
+                .item-right {
+                    float: right;
+                    button {
+                        margin-top: 14px;
+                    }
+                }
+            }
+        }
+    }
+}

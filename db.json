@@ -353,5 +353,15 @@
       "userEmail": "test@gmail.com",
       "isCompleted": true
     }
+  ],
+  "session": [
+    {
+      "id": "QFtBX5XEg",
+      "cart": {
+        "2b81774a-f788-4e6b-b766-1ece9b34fe78": 2,
+        "c68ec5b8-f17d-44bc-8609-6ddc1e8292f7": 1,
+        "58782e55-d8ae-4b9a-bc2d-9d9e6d3e39ed": 1
+      }
+    }
   ]
 }

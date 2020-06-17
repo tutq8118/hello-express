@@ -21,3 +21,39 @@
     margin-bottom: .5rem; }
     .book-cards .card-action > * + * {
       margin-left: 10px; }
+
+.navbar__cart {
+  position: relative; }
+  .navbar__cart ul.dropdown-cart {
+    min-width: 250px;
+    border: 2px solid #343434;
+    padding: 10px;
+    margin-top: 11px;
+    left: auto;
+    right: 0; }
+    .navbar__cart ul.dropdown-cart li .item {
+      display: block;
+      padding: 3px 10px;
+      margin: 3px 0; }
+      .navbar__cart ul.dropdown-cart li .item:hover {
+        background-color: #c3c5c5; }
+      .navbar__cart ul.dropdown-cart li .item:after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0; }
+    .navbar__cart ul.dropdown-cart li .item-left {
+      float: left; }
+      .navbar__cart ul.dropdown-cart li .item-left img {
+        float: left; }
+      .navbar__cart ul.dropdown-cart li .item-left span.item-info {
+        float: left;
+        margin-left: 10px; }
+        .navbar__cart ul.dropdown-cart li .item-left span.item-info span {
+          display: block; }
+    .navbar__cart ul.dropdown-cart li .item-right {
+      float: right; }
+      .navbar__cart ul.dropdown-cart li .item-right button {
+        margin-top: 14px; }

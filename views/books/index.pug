@@ -16,7 +16,7 @@ block body
               h5.card-title= book.title
               p.card-text= book.desc
               .cart-button.text-center
-                a.btn.btn-primary(href='/cart/add') Add to cart
+                a.btn.btn-primary(href='/cart/add/' + book.id) Add to cart
             if (isAdmin)
               .card-action
                 a.btn-edit(href=`books/${book.id}/edit`) Edit
