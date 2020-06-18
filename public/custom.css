@@ -53,6 +53,12 @@
         margin-left: 10px; }
         .navbar__cart ul.dropdown-cart li .item-left span.item-info span {
           display: block; }
+    .navbar__cart ul.dropdown-cart li .item-info {
+      display: flex;
+      width: 100%;
+      justify-content: space-between; }
+    .navbar__cart ul.dropdown-cart li .item-title {
+      font-weight: 600; }
     .navbar__cart ul.dropdown-cart li .item-right {
       float: right; }
       .navbar__cart ul.dropdown-cart li .item-right button {

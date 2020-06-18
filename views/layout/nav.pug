@@ -20,17 +20,17 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
           |, 
           a(href="/auth/logout") Logout
         else
-          a.navbar__login-link(href='/auth/login') Login
-      if (sessionCartArr)
-        .navbar__cart.ml-lg-3
-          .dropdown
-            a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-expanded='false')
-              span Cart
-              | 
-              span (4)
-              | 
-              span.caret
-            ul.dropdown-menu.dropdown-cart(role='menu')
+          a.navbar__login-link(href='/auth/login') Login      
+      .navbar__cart.ml-lg-3
+        .dropdown
+          a.dropdown-toggle(href='#' data-toggle='dropdown' role='button' aria-expanded='false')
+            span Cart
+            | 
+            span= totalCart ? totalCart : 0 
+            | 
+            span.caret
+          ul.dropdown-menu.dropdown-cart(role='menu')
+            if (totalCart)
               each el in sessionCartArr
                 li
                   span.item
@@ -39,4 +39,6 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
                       span.item-title= el[0]
                       span.item-qty= el[1]
               li.text-right
-                a(href='#') Checkout
+                a(href='/cart/checkout') Checkout
+            else
+              li Your cart is empty

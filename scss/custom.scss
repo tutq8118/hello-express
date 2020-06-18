@@ -78,6 +78,14 @@
                         }
                     }
                 }
+                .item-info {
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+                }
+                .item-title {
+                    font-weight: 600;
+                }
                 .item-right {
                     float: right;
                     button {

@@ -16,5 +16,30 @@ module.exports = {
       .set("cart." + bookId, count + 1)
       .write();
     res.redirect('/books');
+  },
+  
+  checkout: (req, res, next) => {
+    var sessionId = req.signedCookies.sessionId;
+    if (!sessionId) {
+      res.redirect('/books');
+      return;
+    }
+
+    var sessionCart = req.sessionCart;
+    
+    if (res.locals.totalCart) {
+      for (var k in sessionCart) {
+        db.get("transactions")
+        .push({
+          id: shortid.generate(),
+          bookTitle: db.get('books').find({id: k}).value().title,
+          userEmail: res.locals.curentUserEmail,
+          isCompleted: false
+        })
+        .write();
+        db.get('session').find({id: sessionId}).get('cart').unset(k).write();
+      }
+    }
+    res.redirect('/books');
   }
 }
