@@ -15,12 +15,14 @@ module.exports = {
         id: sessionId
       }).write();
       next();
+      return;
     }
 
     var sessionId = req.signedCookies.sessionId;
     var sessionCart = db.get('session').find({id: sessionId}).get('cart').value();
     if (!sessionCart) {
       next();
+      return;
     }
 
     var sessionCartArr = Object.entries(sessionCart).map(function(e) {

@@ -418,6 +418,12 @@
       "bookTitle": "Dennis the Menace",
       "userEmail": "test@gmail.com",
       "isCompleted": false
+    },
+    {
+      "id": "979SUYJI2",
+      "bookTitle": "The Fearless Four",
+      "userEmail": "test@gmail.com",
+      "isCompleted": false
     }
   ],
   "session": [
@@ -426,6 +432,10 @@
       "cart": {
         "e4410f6f-01b4-477a-a8d9-f35df564be2e": 1
       }
+    },
+    {
+      "id": "pBxj8d4qO",
+      "cart": {}
     }
   ]
 }
