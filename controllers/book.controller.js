@@ -1,24 +1,30 @@
 const db = require('../db');
+const Book = require('../models/book.model');
 const shortid = require("shortid");
 var cloudinary = require('cloudinary').v2;
-cloudinary.config({ 
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
-  api_key: process.env.CLOUDINARY_API_KEY, 
-  api_secret: process.env.CLOUDINARY_API_SECRET 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 module.exports = {
-  index: (request, response) => {
-    var page = request.query.page || 1;
-    var perPage = 8;
-    var start = (page - 1)*perPage;
-    var end = page*perPage;
-    const books = db.get("books").value().slice(start, end);
-    const totalPage = Math.floor(db.get("books").value().length/perPage) + 1;
+  index: async (request, response) => {
+    // var page = request.query.page || 1;
+    // var perPage = 8;
+    // var start = (page - 1) * perPage;
+    // var end = page * perPage;
+    // const books = db.get("books").value().slice(start, end);
+    // const totalPage = Math.floor(db.get("books").value().length / perPage) + 1;
+    // response.render("books", {
+    //   books,
+    //   perPage,
+    //   totalPage
+    // });
+
+    const books = await Book.find();
     response.render("books", {
-      books,
-      perPage,
-      totalPage
+      books
     });
   },
   create: (request, response) => {
@@ -47,7 +53,9 @@ module.exports = {
     const id = request.params.id;
     const book = db
       .get("books")
-      .find({ id: id })
+      .find({
+        id: id
+      })
       .value();
     response.render("books/edit", {
       book
@@ -59,20 +67,29 @@ module.exports = {
     const newDesc = request.body.desc;
     const image = request.file;
     db.get("books")
-      .find({ id: id })
-      .assign({ title: newTitle, desc: newDesc })
+      .find({
+        id: id
+      })
+      .assign({
+        title: newTitle,
+        desc: newDesc
+      })
       .write();
     // response.redirect("/books");
 
-    cloudinary.uploader.upload(image.path, { folder: "hello-express/covers/"}, 
-      function(error, result) {
+    cloudinary.uploader.upload(image.path, {
+        folder: "hello-express/covers/"
+      },
+      function (error, result) {
         db.get('books')
-        .find({id: id})
-        .assign({ 
-          coverUrl: result.secure_url
-        }).write();
+          .find({
+            id: id
+          })
+          .assign({
+            coverUrl: result.secure_url
+          }).write();
         response.redirect('back');
 
-    });
+      });
   }
 }

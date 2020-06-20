@@ -1,6 +1,5 @@
 {
-  "books": [
-    {
+  "books": [{
       "id": "2b81774a-f788-4e6b-b766-1ece9b34fe78",
       "title": "I Travel Alone",
       "desc": "Retained (old) magnetic foreign body in vitreous body, unspecified eye",
@@ -248,8 +247,7 @@
       "desc": "Toxic effect of sulfur dioxide, intentional self-harm, sequela"
     }
   ],
-  "users": [
-    {
+  "users": [{
       "id": "iT2t-ycNb",
       "name": "Test",
       "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
@@ -322,8 +320,7 @@
       "avatarUrl": "https://res.cloudinary.com/tutq8118/image/upload/v1592207398/hello-express/avatars/gf90xuoo3tegnbfpawzn.jpg"
     }
   ],
-  "transactions": [
-    {
+  "transactions": [{
       "id": "vSD0V321w",
       "bookTitle": "The Godfather",
       "userEmail": "vinh@gmail.com",
@@ -426,16 +423,7 @@
       "isCompleted": false
     }
   ],
-  "session": [
-    {
-      "id": "QFtBX5XEg",
-      "cart": {
-        "e4410f6f-01b4-477a-a8d9-f35df564be2e": 1
-      }
-    },
-    {
-      "id": "pBxj8d4qO",
-      "cart": {}
-    }
-  ]
+  "session": [{
+    "id": "V2kcDq-r9"
+  }]
 }

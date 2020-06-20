@@ -8,6 +8,14 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 
+// MongoDB
+
+const mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
 const cookieParser = require('cookie-parser')
 
 const bodyParser = require("body-parser");
