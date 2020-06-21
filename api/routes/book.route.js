@@ -8,7 +8,7 @@ var upload = multer({ dest: 'public/uploads/' });
 
 router.get("/", controller.index);
 
-router.post("/create", upload.single('cover'), controller.create);
+router.post("/create", controller.create);
 
 router.get("/:id/remove", controller.remove);
 

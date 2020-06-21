@@ -1,9 +1,11 @@
 const db = require('../db');
 const shortid = require("shortid");
 const md5 = require('md5');
-const bcrypt  = require('bcrypt');
+const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+const User = require('../models/user.model');
 
 
 module.exports = {
@@ -25,26 +27,36 @@ module.exports = {
       db.get("users")
         .push({
           id: shortid.generate(),
-          name: name ? name: email.substring(0, email.lastIndexOf("@")),
+          name: name ? name : email.substring(0, email.lastIndexOf("@")),
           password: hashPwd,
           email: email,
           wrongLoginCount: 0,
           isAdmin: false
         })
         .write();
-      const user = db.get('users').find({email: email}).value();
+      const user = db.get('users').find({
+        email: email
+      }).value();
       res.cookie('userID', user.id, {
         signed: true
       });
       res.redirect("/");
     }
   },
-  postLogin: (req, res) => {
+  postLogin: async (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
     var hashedPassword = md5(password);
-    var user = db.get('users').find({email: email}).value();
-    
+
+    try {
+      var userArr = await User.find({
+        email: email
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    var user = userArr[0];
     res.locals.email = email;
     res.locals.password = password;
 
@@ -55,7 +67,7 @@ module.exports = {
       text: 'HelloExpress',
       html: 'You have typed wrong password 3 times. Please click <a href="#">here</a> to reset password',
     };
-    
+
     if (!user) {
       res.render('auth/login', {
         errors: [
@@ -65,11 +77,11 @@ module.exports = {
       return;
     }
     if (user.wrongLoginCount === 2) {
-      user.wrongLoginCount ++;
+      user.wrongLoginCount++;
       sgMail.send(msg).then(() => {
-          console.log('Message sent')
+        console.log('Message sent')
       }).catch((error) => {
-          console.log(error.response.body);
+        console.log(error.response.body);
       });
       res.render('auth/login', {
         errors: [
@@ -88,7 +100,7 @@ module.exports = {
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      user.wrongLoginCount ++;
+      user.wrongLoginCount++;
       res.render('auth/login', {
         errors: [
           `Wrong password! You have ${4 - user.wrongLoginCount} ${user.wrongLoginCount> 2? 'time' : 'times'} to try`
@@ -98,7 +110,7 @@ module.exports = {
     }
 
     user.wrongLoginCount = 0;
-    
+
     res.cookie('userID', user.id, {
       signed: true
     });

@@ -1,6 +1,7 @@
 const db = require('../db');
 const Book = require('../models/book.model');
 const shortid = require("shortid");
+const User = require('../models/user.model');
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -14,13 +15,7 @@ module.exports = {
     // var perPage = 8;
     // var start = (page - 1) * perPage;
     // var end = page * perPage;
-    // const books = db.get("books").value().slice(start, end);
     // const totalPage = Math.floor(db.get("books").value().length / perPage) + 1;
-    // response.render("books", {
-    //   books,
-    //   perPage,
-    //   totalPage
-    // });
 
     const books = await Book.find();
     response.render("books", {
@@ -28,68 +23,74 @@ module.exports = {
     });
   },
   create: (request, response) => {
+    const image = request.file;
     const title = request.body.title;
     const desc = request.body.desc;
+    
     if (title !== null && title !== "") {
-      db.get("books")
-        .push({
-          id: shortid.generate(),
+     
+      cloudinary.uploader.upload(image.path, { folder: "hello-express/cover/"}, 
+      function(error, result) {
+        Book.create({
           title: title,
-          desc: desc
-        })
-        .write();
+          desc: desc,
+          coverUrl: result.secure_url
+        }).then(function(resolve) {
+          response.redirect("back");
+        });
+      });
     }
-    response.redirect("back");
+    
+    
   },
   remove: (request, response) => {
-    db.get("books")
-      .remove({
-        id: request.params.id
-      })
-      .write();
+    Book.findOneAndDelete(request.params.id);
     response.redirect("back");
   },
   edit: (request, response) => {
     const id = request.params.id;
-    const book = db
-      .get("books")
-      .find({
-        id: id
+    Book.find({
+      _id: id
+    }).then(r => {
+      const book = r[0];
+      response.render('books/edit', {
+        book
       })
-      .value();
-    response.render("books/edit", {
-      book
-    });
+    }); 
+    
   },
   update: (request, response) => {
     const id = request.params.id;
     const newTitle = request.body.title;
     const newDesc = request.body.desc;
     const image = request.file;
-    db.get("books")
-      .find({
-        id: id
-      })
-      .assign({
-        title: newTitle,
-        desc: newDesc
-      })
-      .write();
-    // response.redirect("/books");
 
-    cloudinary.uploader.upload(image.path, {
-        folder: "hello-express/covers/"
-      },
-      function (error, result) {
-        db.get('books')
-          .find({
-            id: id
-          })
-          .assign({
-            coverUrl: result.secure_url
-          }).write();
-        response.redirect('back');
-
-      });
+      if (image) {
+          cloudinary.uploader.upload(image.path, { 
+            folder: "hello-express/cover/"
+          }, 
+          function(error, result) {
+            Book.findByIdAndUpdate(
+              { _id: id },
+              { title: newTitle,
+                desc: newDesc,
+                coverUrl: result.secure_url },
+              r => {
+                response.redirect('back');
+              }
+            );
+        });
+      }
+      else {
+        Book.findOneAndUpdate(
+          { _id: id },
+          { $set: request.body },
+          { new: true },
+          r => {
+            response.redirect('back');
+          }
+        );
+      }
+      
   }
 }

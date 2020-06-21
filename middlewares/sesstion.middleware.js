@@ -4,22 +4,51 @@ const db = require('../db');
 const shortid = require("shortid");
 const { get } = require("../db");
 
+const Session = require('../models/session.model');
+
 module.exports = {
-  check: (req, res, next) => {
+  check: async (req, res, next) => {
     if (!req.signedCookies.sessionId) {
-      var sessionId = shortid.generate();
-      res.cookie('sessionId', sessionId, {
+      var newSection = new Session();
+      newSection.save((err, save) => {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          req.locals.sessionId = newSection._id;
+          console.log('successfully');
+        }
+      });
+      res.cookie('sessionId', req.locals.sessionId, {
         signed: true
       });
-      db.get('session').push({
-        id: sessionId
-      }).write();
       next();
       return;
     }
 
     var sessionId = req.signedCookies.sessionId;
-    var sessionCart = db.get('session').find({id: sessionId}).get('cart').value();
+    console.log(req.signedCookies);
+    // var sessionCart = db.get('session').find({id: sessionId}).get('cart').value();
+
+    try {
+      var sessionCart = await Session.find({
+        _id: sessionId
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    console.log(sessionCart);
+    return
+
+    // console.log(sessionCart);
+    // Session.find({
+    //   _id: sessionId
+    // }).then((r) => {
+    //   console.log(1);
+    // });
+
+    // const sessionCart = r[0].cart;
+
     if (!sessionCart) {
       next();
       return;
@@ -39,5 +68,6 @@ module.exports = {
     res.locals.totalCart = total;
     res.locals.sessionCartArr = sessionCartArr;
     next();
+    
   }
 }

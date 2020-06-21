@@ -30,7 +30,10 @@ block body
               a.page-link(href=`/books?page=${n}`)= n++
   if (isAdmin)
     h2.mb-3 Create a new book
-    form(method='POST' action='books/create')
+    form(method='POST' action='books/create' enctype="multipart/form-data")
+      .form-group 
+        label(for='cover-upload')
+        input.form-control-file#cover-upload(type='file' name='cover')
       .form-group
         label(for='book-title') Title*
         input#book-title.form-control(type='text' name='title' required="required")

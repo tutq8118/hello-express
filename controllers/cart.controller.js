@@ -1,6 +1,7 @@
 const db = require('../db');
 const shortid = require("shortid");
 const users = db.get("users").value();
+const Session = require('../models/session.model');
 
 module.exports = {
   add: (req, res, next) => {
@@ -10,11 +11,14 @@ module.exports = {
       res.redirect('/books');
       return;
     }
-    var count = db.get('session').find({id: sessionId}).get('cart.' + bookId, 0).value();
-    db.get('session')
-      .find({id: sessionId})
-      .set("cart." + bookId, count + 1)
-      .write();
+    // var count = db.get('session').find({id: sessionId}).get('cart.' + bookId, 0).value();
+    var count = Session.findById(sessionId, (err, adv) => {
+     
+    });
+    // db.get('session')
+    //   .find({id: sessionId})
+    //   .set("cart." + bookId, count + 1)
+    //   .write();
     res.redirect('/books');
   },
   
