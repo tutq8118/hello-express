@@ -10,7 +10,7 @@ module.exports = {
   check: async (req, res, next) => {
     if (!req.signedCookies.sessionId) {
       var newSection = new Session();
-      newSection.save((err, save) => {
+      newSection.save((err) => {
         if (err) {
           console.log(err);
         }
