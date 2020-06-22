@@ -4,7 +4,7 @@ const users = db.get("users").value();
 const Session = require('../models/session.model');
 
 module.exports = {
-  add: (req, res, next) => {
+  add: async (req, res, next) => {
     var bookId = req.params.id;
     var sessionId = req.signedCookies.sessionId;
     if (!sessionId) {
@@ -12,14 +12,21 @@ module.exports = {
       return;
     }
     // var count = db.get('session').find({id: sessionId}).get('cart.' + bookId, 0).value();
-    var count = Session.findById(sessionId, (err, adv) => {
-     
-    });
+    var cart = await Session.findById(sessionId);
+    var count = cart.bookId ? cart.bookId : 0;
+    cart.bookId = count + 1;
+    Session.findByIdAndUpdate(
+      {_id: sessionId},
+      {cart: cart},
+      r => {
+        res.redirect('/books');
+      }
+    )
     // db.get('session')
     //   .find({id: sessionId})
     //   .set("cart." + bookId, count + 1)
     //   .write();
-    res.redirect('/books');
+    
   },
   
   checkout: (req, res, next) => {
