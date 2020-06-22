@@ -18,6 +18,7 @@ module.exports = {
     // const totalPage = Math.floor(db.get("books").value().length / perPage) + 1;
 
     const books = await Book.find();
+    console.log(books);
     response.render("books", {
       books
     });

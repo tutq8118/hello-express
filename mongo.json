@@ -1,0 +1,30 @@
+{
+  "books": [
+    {
+      "_id": ObjectId("5eedda890eabc4bd028eb8d6"),
+      "title": "Kukuli",
+      "desc": "Puncture wound with foreign body of unspecified buttock",
+      "coverUrl": "https://res.cloudinary.com/tutq8118/image/upload/v1592322011/hello-express/covers/izx1rdxdawgnvgqmb5pd.jpg"
+    },
+    {
+      "_id": ObjectId("5eef7e92c163112116683df7"),
+      "title": "The Godfather",
+      "desc": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+      "coverUrl": "https://res.cloudinary.com/tutq8118/image/upload/v1592759991/hello-express/cover/esh9estd8mbmqo52upk5.jpg",
+      "__v": 0
+    }
+  ],
+  "users": [
+    {
+      "_id": ObjectId("5eecd73ddf0bade6858e5f2b"),
+      "name": "Tu",
+      "password": "$2b$10$/SNjJJjXbni3NngU.VBYtuKiGJFEGblrXGZbY5OPR8aPeIaiBxIMi",
+      "email": "admin@gmail.com",
+      "wrongLoginCount": 0,
+      "isAdmin": true,
+      "avatarUrl": "https://res.cloudinary.com/tutq8118/image/upload/v1592321784/hello-express/avatars/l6yjootrxwgotfuzoxix.jpg"
+    }
+  ],
+  "transactions": [],
+  "sessions": []
+}
