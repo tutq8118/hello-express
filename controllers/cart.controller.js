@@ -2,6 +2,7 @@ const db = require('../db');
 const shortid = require("shortid");
 const users = db.get("users").value();
 const Session = require('../models/session.model');
+const Book = require('../models/book.model');
 
 module.exports = {
   add: async (req, res, next) => {
@@ -11,22 +12,35 @@ module.exports = {
       res.redirect('/books');
       return;
     }
-    // var count = db.get('session').find({id: sessionId}).get('cart.' + bookId, 0).value();
-    var cart = await Session.findById(sessionId);
-    var count = cart.bookId ? cart.bookId : 0;
-    cart.bookId = count + 1;
-    Session.findByIdAndUpdate(
-      {_id: sessionId},
-      {cart: cart},
-      r => {
-        res.redirect('/books');
-      }
-    )
-    // db.get('session')
-    //   .find({id: sessionId})
-    //   .set("cart." + bookId, count + 1)
-    //   .write();
+    var book = await Book.findById(bookId);
+    var data = await Session.findById(sessionId);
+    var cart = data.cart;
+    var temp = [...cart];
+    var checkArr = temp.find((el) => el.bookId === bookId);
+    if (!checkArr) {
+      temp.push({
+        bookId: bookId,
+        bookTitle: book.title,
+        count: 1
+      });
+    }
+    else {
+      temp.forEach((el) => {
+        if (el.bookId === bookId) {
+          el.count++
+        }
+      })
+    }
     
+    Session.findOneAndUpdate({_id: sessionId}, {$set:{cart: temp}}, {new: true}, (err, doc) => {
+        if (err) {
+            console.log("Something wrong when updating data!");
+        }
+    
+        console.log(doc);
+    });
+    res.redirect('/books');
+  
   },
   
   checkout: (req, res, next) => {
