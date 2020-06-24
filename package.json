@@ -7,7 +7,7 @@
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "startn": "nodemon server.js",
     "build-css": "node-sass --include-path scss scss/custom.scss public/custom.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",

@@ -28,28 +28,19 @@ module.exports = {
     }
 
     var sessionId = req.signedCookies.sessionId;
-    // var sessionCart = db.get('session').find({id: sessionId}).get('cart').value();
     var data = await Session.findById(sessionId);
     var sessionCart = data.cart;
     if (!sessionCart) {
       next();
       return;
     }
+    console.log(sessionCart);
+    var total = sessionCart.reduce((acc, curr) => acc + curr.count, 0);
+    console.log(total);
 
-    var sessionCartArr = Object.entries(sessionCart).map(function(e) {
-      var bookId = String(e[0]);
-      // var bookTitle = db.get('books').find({id: bookId}).value().title;
-      
-      return [data.title, e[1]]
-    });
-
-    var total = 0;
-    for (var k in sessionCart) {
-      total += sessionCart[k];
-    }
     req.sessionCart = sessionCart;
     res.locals.totalCart = total;
-    res.locals.sessionCartArr = sessionCartArr;
+    res.locals.sessionCart = sessionCart;
     next();
     
   }

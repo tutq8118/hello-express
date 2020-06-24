@@ -12,23 +12,27 @@ module.exports = {
       res.redirect('/books');
       return;
     }
-    // var count = db.get('session').find({id: sessionId}).get('cart.' + bookId, 0).value();
     var book = await Book.findById(bookId);
     var data = await Session.findById(sessionId);
     var cart = data.cart;
+    var temp = [...cart];
+    var checkArr = temp.find((el) => el.bookId === bookId);
+    if (!checkArr) {
+      temp.push({
+        bookId: bookId,
+        bookTitle: book.title,
+        count: 1
+      });
+    }
+    else {
+      temp.forEach((el) => {
+        if (el.bookId === bookId) {
+          el.count++
+        }
+      })
+    }
     
-    // var check = cart.find((e) => {
-    //   return Object.keys(e)[0] === bookId
-    // });
-    console.log(cart.length);
-    var count = cart.length ? cart.find((e) => Object.keys(e)[0] === bookId)[0].bookId : 0;
-    var  a = [];
-    var temp = a.push({
-      "book_id": bookId,
-      "count": count + 1
-    });
-    console.log(temp);
-    Session.findOneAndUpdate({_id: sessionId}, {$set:{cart: a}}, {new: true}, (err, doc) => {
+    Session.findOneAndUpdate({_id: sessionId}, {$set:{cart: temp}}, {new: true}, (err, doc) => {
         if (err) {
             console.log("Something wrong when updating data!");
         }
@@ -36,11 +40,7 @@ module.exports = {
         console.log(doc);
     });
     res.redirect('/books');
-    // db.get('session')
-    //   .find({id: sessionId})
-    //   .set("cart." + bookId, count + 1)
-    //   .write();
-    
+  
   },
   
   checkout: (req, res, next) => {
