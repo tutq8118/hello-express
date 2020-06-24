@@ -12,5 +12,6 @@ block body
           img(src=avatarUrl, alt=userName, width='80' height='80' style='object-fit: cover')
       label(for='avatar-upload')
       input.form-control-file#avatar-upload(type='file' name='avatar')
-    .form-group.text-right
+    .form-group.d-flex.justify-content-between
+      a.btn.btn-outline-primary(href='/') Back
       button.btn.btn-primary Update

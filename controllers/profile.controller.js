@@ -1,8 +1,4 @@
-const express = require("express");
-const db = require('../db');
-const shortid = require("shortid");
-const md5 = require('md5');
-const bcrypt  = require('bcrypt');
+
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 var cloudinary = require('cloudinary').v2;
@@ -12,33 +8,45 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET 
 });
 
+const User = require('../models/user.model');
+
 module.exports = {
   index: (req, res) => {
     res.render('profile');
   },
-  update: (req, res) => {
+  update: async (req, res) => {
     const newName = req.body.name;
     const image = req.file;
-    const curentUserEmail = req.signedCookies.userID !== null && req.signedCookies.userID !== undefined ? 
-    db.get('users').find({id: req.signedCookies.userID}).value().email : '';
-    if (newName !== '' && db.get('users').find({email: curentUserEmail}).value().name !== newName) {
-      db.get('users')
-      .find({email: curentUserEmail})
-      .assign({ 
-        name: newName
-      }).write();
-    }
-    cloudinary.uploader.upload(image.path, { folder: "hello-express/avatars/"}, 
-      function(error, result) {
-        db.get('users')
-        .find({email: curentUserEmail})
-        .assign({ 
-          avatarUrl: result.secure_url
-        }).write();
+    const curentUserEmail = res.locals.curentUserEmail;
+
+    if (!image) {
+      User.findOneAndUpdate(
+        {email: curentUserEmail},
+        {$set:{name: newName}},
+        {new: true},
+        (err, doc) => {
+        if (err) {
+            console.log("Something wrong when updating data!");
+        }
+        else {
+          res.redirect('back');
+        }
+      });
+    } else {
+      cloudinary.uploader.upload(image.path, { folder: "hello-express/avatars/"}, 
+        function(error, result) {
+          User.findOneAndUpdate(
+            {email: curentUserEmail},
+            {$set:{avatarUrl: result.secure_url}},
+            {new: true},
+            (err, doc) => {
+              if (err) {
+                  console.log("Something wrong when updating data!");
+              }
+            });
         res.locals.avatarUrl = result.secure_url;
         res.redirect('back');
-
-    });
-    
+      });
+    }
   }
 }

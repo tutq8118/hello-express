@@ -1,7 +1,4 @@
-const db = require('../db');
 const Book = require('../models/book.model');
-const shortid = require("shortid");
-const User = require('../models/user.model');
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -28,23 +25,32 @@ module.exports = {
     const desc = request.body.desc;
     
     if (title !== null && title !== "") {
-     
-      cloudinary.uploader.upload(image.path, { folder: "hello-express/cover/"}, 
-      function(error, result) {
+      if (image) {
+        cloudinary.uploader.upload(image.path, { folder: "hello-express/cover/"}, 
+        function(error, result) {
+          Book.create({
+            title: title,
+            desc: desc,
+            coverUrl: result.secure_url
+          }).then(function(resolve) {
+            response.redirect("back");
+          });
+        });
+      } else {
         Book.create({
           title: title,
           desc: desc,
-          coverUrl: result.secure_url
+          coverUrl: ''
         }).then(function(resolve) {
           response.redirect("back");
         });
-      });
+      }
     }
-    
     
   },
   remove: (request, response) => {
-    Book.findOneAndDelete(request.params.id);
+    const id = request.params.id;
+    Book.findOneAndDelete({_id: id}, () => console.log('Done'));
     response.redirect("back");
   },
   edit: (request, response) => {

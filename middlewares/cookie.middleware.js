@@ -1,7 +1,3 @@
-const express = require("express");
-const app = express();
-const db = require('../db');
-
 const User = require('../models/user.model');
 
 module.exports = {
@@ -24,7 +20,6 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
-    // var currentUser = db.get('users').find({id: req.signedCookies.userID}).value();
     var currentUser = userArr[0];
     res.locals.curentUserEmail = currentUser.email;
     res.locals.isAdmin = currentUser.isAdmin;
