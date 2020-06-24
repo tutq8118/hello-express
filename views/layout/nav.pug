@@ -31,13 +31,13 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
             span.caret
           ul.dropdown-menu.dropdown-cart(role='menu')
             if (totalCart)
-              each el in sessionCartArr
+              each el in sessionCart
                 li
                   span.item
                     span.item-left.d-none
                     span.item-info
-                      span.item-title= el[0]
-                      span.item-qty= el[1]
+                      span.item-title= el.bookTitle
+                      span.item-qty= el.count
               li.text-right
                 a(href='/cart/checkout') Checkout
             else

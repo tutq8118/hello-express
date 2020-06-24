@@ -1,9 +1,12 @@
 const db = require('../db');
 const shortid = require("shortid");
-const users = db.get("users").value();
+// const users = db.get("users").value();
+const User = require('../models/user.model');
 
 module.exports = {
-  index: (request, response) => {
+  index: async (request, response) => {
+    const users = await User.find();
+    console.log(users);
     response.render("users", {
       users
     });

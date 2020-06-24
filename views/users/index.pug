@@ -3,8 +3,11 @@ extend ../layout/default
 block body
   h2.mb-3 List Users
   ul.list-group.mb-5
-    each user in users
-      li.list-group-item.d-flex
-        span.flex-grow-1= user.name
-        a.ml-3(href=`/users/${user.id}/edit`) Edit
-        a.ml-3(href=`/users/${user.id}/remove`) Remove
+    if (users)
+      each user in users
+        li.list-group-item.d-flex
+          span.flex-grow-1= user.name
+          a.ml-3(href=`/users/${user.id}/edit`) Edit
+          a.ml-3(href=`/users/${user.id}/remove`) Remove
+    else
+      p There is any user

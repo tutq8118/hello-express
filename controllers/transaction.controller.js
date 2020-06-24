@@ -1,15 +1,16 @@
 const db = require('../db');
 const shortid = require("shortid");
-const transactions = db.get("transactions").value();
+// const transactions = db.get("transactions").value();
 const books = db.get("books").value();
 const users = db.get("users").value();
 
-module.exports = {
-  index: (request, response) => {
+const Transaction = require('../models/transaction.model');
+
+module.exports = {  
+  index: async (request, response) => {
+    var transactions = await Transaction.find();
     response.render("transactions", {
-      transactions,
-      books,
-      users
+      transactions
     });
   },
   create: (request, response) => {
