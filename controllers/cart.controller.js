@@ -1,6 +1,4 @@
-const db = require('../db');
-const shortid = require("shortid");
-const users = db.get("users").value();
+
 const Session = require('../models/session.model');
 const Transaction = require('../models/transaction.model');
 const Book = require('../models/book.model');

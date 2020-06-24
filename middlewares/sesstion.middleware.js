@@ -1,11 +1,5 @@
-const express = require("express");
-const app = express();
-const db = require('../db');
-const shortid = require("shortid");
-const { get } = require("../db");
 const mongoose = require('mongoose');
 const Session = require('../models/session.model');
-const Book = require('../models/book.model');
 
 module.exports = {
   check: async (req, res, next) => {

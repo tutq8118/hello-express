@@ -15,7 +15,6 @@ block body
               |
               | - 
               strong.text-info= transaction.userEmail
-            a.mr-3.btn-edit(href=`transactions/${transaction.id}/edit`) Edit
             a.mr-3(href=`transactions/${transaction.id}/remove`) Remove
             if (transaction.isCompleted === false)
               a(href=`transactions/${transaction.id}/complete`) Complete

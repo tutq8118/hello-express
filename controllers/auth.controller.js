@@ -1,6 +1,3 @@
-const db = require('../db');
-const shortid = require("shortid");
-const md5 = require('md5');
 const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -16,37 +13,34 @@ module.exports = {
     res.clearCookie("userID");
     res.redirect('/auth/login');
   },
-  create: (req, res) => {
+  create: async (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const pwd = req.body.pwd;
     const saltRounds = 10;
     const salt = bcrypt.genSaltSync(saltRounds);
     const hashPwd = bcrypt.hashSync(pwd, salt);
+
     if (pwd !== null && pwd !== "") {
-      db.get("users")
-        .push({
-          id: shortid.generate(),
-          name: name ? name : email.substring(0, email.lastIndexOf("@")),
-          password: hashPwd,
-          email: email,
-          wrongLoginCount: 0,
-          isAdmin: false
-        })
-        .write();
-      const user = db.get('users').find({
-        email: email
-      }).value();
-      res.cookie('userID', user.id, {
-        signed: true
+      User.create({
+        name: name ? name : email.substring(0, email.lastIndexOf("@")),
+        password: hashPwd,
+        email: email,
+        wrongLoginCount: 0,
+        isAdmin: false,
+        avatarUrl: ''
+      }).then((doc) => {
+        res.cookie('userID', doc._id, {
+          signed: true
+        });
+        res.redirect("/");
       });
-      res.redirect("/");
     }
   },
+
   postLogin: async (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
-    var hashedPassword = md5(password);
 
     try {
       var userArr = await User.find({
