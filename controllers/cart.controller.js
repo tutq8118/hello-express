@@ -2,6 +2,7 @@ const db = require('../db');
 const shortid = require("shortid");
 const users = db.get("users").value();
 const Session = require('../models/session.model');
+const Transaction = require('../models/transaction.model');
 const Book = require('../models/book.model');
 
 module.exports = {
@@ -17,14 +18,14 @@ module.exports = {
     var cart = data.cart;
     var temp = [...cart];
     var checkArr = temp.find((el) => el.bookId === bookId);
+
     if (!checkArr) {
       temp.push({
         bookId: bookId,
         bookTitle: book.title,
         count: 1
       });
-    }
-    else {
+    } else {
       temp.forEach((el) => {
         if (el.bookId === bookId) {
           el.count++
@@ -36,14 +37,11 @@ module.exports = {
         if (err) {
             console.log("Something wrong when updating data!");
         }
-    
-        console.log(doc);
     });
     res.redirect('/books');
-  
   },
   
-  checkout: (req, res, next) => {
+  checkout: async (req, res, next) => {
     var sessionId = req.signedCookies.sessionId;
     if (!sessionId) {
       res.redirect('/books');
@@ -51,20 +49,24 @@ module.exports = {
     }
 
     var sessionCart = req.sessionCart;
-    
+    console.log(sessionCart);
     if (res.locals.totalCart) {
-      for (var k in sessionCart) {
-        db.get("transactions")
-        .push({
-          id: shortid.generate(),
-          bookTitle: db.get('books').find({id: k}).value().title,
+      for (const item of sessionCart) {
+        console.log(item);
+        Transaction.create({
+          bookId: item.bookId,
+          bookTitle: item.bookTitle,
           userEmail: res.locals.curentUserEmail,
+          count: item.count,
           isCompleted: false
-        })
-        .write();
-        db.get('session').find({id: sessionId}).get('cart').unset(k).write();
+        }).then((resolve) => console.log('done'));
       }
     }
+    Session.findOneAndUpdate({_id: sessionId}, {$set:{cart: []}}, {new: true}, (err, doc) => {
+        if (err) {
+            console.log("Something wrong when updating data!");
+        }
+    });
     res.redirect('/books');
   }
 }

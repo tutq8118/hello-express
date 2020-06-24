@@ -34,10 +34,7 @@ module.exports = {
       next();
       return;
     }
-    console.log(sessionCart);
     var total = sessionCart.reduce((acc, curr) => acc + curr.count, 0);
-    console.log(total);
-
     req.sessionCart = sessionCart;
     res.locals.totalCart = total;
     res.locals.sessionCart = sessionCart;
