@@ -71,7 +71,15 @@ module.exports = {
       return;
     }
     if (user.wrongLoginCount === 2) {
-      user.wrongLoginCount++;
+      User.findOneAndUpdate(
+        {email: email},
+        {$set:{wrongLoginCount: user.wrongLoginCount + 1}},
+        {new: true},
+        () => {
+          console.log(user.wrongLoginCount);
+        }
+      )
+      // user.wrongLoginCount++;
       sgMail.send(msg).then(() => {
         console.log('Message sent')
       }).catch((error) => {
@@ -94,12 +102,19 @@ module.exports = {
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      user.wrongLoginCount++;
-      res.render('auth/login', {
-        errors: [
-          `Wrong password! You have ${4 - user.wrongLoginCount} ${user.wrongLoginCount> 2? 'time' : 'times'} to try`
-        ]
-      });
+      User.findOneAndUpdate(
+        {email: email},
+        {$set:{wrongLoginCount: user.wrongLoginCount + 1}},
+        {new: true},
+        () => {
+          res.render('auth/login', {
+            errors: [
+              `Wrong password! You have ${4 - user.wrongLoginCount} ${user.wrongLoginCount> 2? 'time' : 'times'} to try`
+            ]
+          });
+        }
+      )
+      
       return;
     }
 
