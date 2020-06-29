@@ -70,21 +70,26 @@ module.exports = {
       });
       return;
     }
-    if (user.wrongLoginCount === 2) {
-      user.wrongLoginCount++;
+    if (user.wrongLoginCount === 3) {
       sgMail.send(msg).then(() => {
         console.log('Message sent')
       }).catch((error) => {
         console.log(error.response.body);
       });
-      res.render('auth/login', {
-        errors: [
-          `Wrong password! Please check your email`
-        ]
-      });
-      return;
+      User.findOneAndUpdate(
+        {email: email},
+        {$set:{wrongLoginCount: user.wrongLoginCount + 1}},
+        {new: true},
+        () => {
+          res.render('auth/login', {
+            errors: [
+              `Wrong password! Please check your email`
+            ]
+          });
+        }
+      )
     }
-    if (user.wrongLoginCount > 2) {
+    if (user.wrongLoginCount > 3) {
       res.render('auth/login', {
         errors: [
           "Your account is temporarily locked because your password was wrong over 4 times. Please contact us to unlock"
@@ -94,16 +99,30 @@ module.exports = {
     }
 
     if (!bcrypt.compareSync(password, user.password)) {
-      user.wrongLoginCount++;
-      res.render('auth/login', {
-        errors: [
-          `Wrong password! You have ${4 - user.wrongLoginCount} ${user.wrongLoginCount> 2? 'time' : 'times'} to try`
-        ]
-      });
+      User.findOneAndUpdate(
+        {email: email},
+        {$set:{wrongLoginCount: user.wrongLoginCount + 1}},
+        {new: true},
+        () => {
+          res.render('auth/login', {
+            errors: [
+              `Wrong password! You have ${3 - user.wrongLoginCount} ${user.wrongLoginCount > 2? 'time' : 'times'} to try`
+            ]
+          });
+        }
+      )
+      
       return;
     }
 
-    user.wrongLoginCount = 0;
+    User.findOneAndUpdate(
+      {email: email},
+      {$set:{wrongLoginCount: 0}},
+      {new: true},
+      () => {
+        console.log('reset wrongLoginCount');
+      }
+    )
 
     res.cookie('userID', user.id, {
       signed: true

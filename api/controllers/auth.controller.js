@@ -54,67 +54,78 @@ module.exports = {
     res.locals.email = email;
     res.locals.password = password;
 
-    const msg = {
-      to: email,
-      from: 'trtu81@gmail.com',
-      subject: 'Regarding account security',
-      text: 'HelloExpress',
-      html: 'You have typed wrong password 3 times. Please click <a href="#">here</a> to reset password',
-    };
-
     if (!user) {
-      // res.render('auth/login', {
-      //   errors: [
-      //     "Doesn't exits this email"
-      //   ]
-      // });
       const errors = [
         "Doesn't exits this email"
       ];
-      res.json(errors);
-      return;
-    }
-    if (user.wrongLoginCount === 2) {
-      user.wrongLoginCount++;
-      sgMail.send(msg).then(() => {
-        console.log('Message sent')
-      }).catch((error) => {
-        console.log(error.response.body);
-      });
-      res.render('auth/login', {
-        errors: [
-          `Wrong password! Please check your email`
-        ]
+      res.json({
+        errors: errors
       });
       return;
     }
-    if (user.wrongLoginCount > 2) {
-      res.render('auth/login', {
-        errors: [
+    
+    if (!bcrypt.compareSync(password, user.password)) {
+      if (user.wrongLoginCount > 3) {
+        
+        var errors = [
           "Your account is temporarily locked because your password was wrong over 4 times. Please contact us to unlock"
         ]
-      });
-      return;
+        var obj = {
+          errors: errors
+        }
+        res.json(obj);
+        return;
+
+      } else if (user.wrongLoginCount === 3) {
+        var msg = {
+          to: email,
+          from: 'trtu81@gmail.com',
+          subject: 'Regarding account security',
+          text: 'HelloExpress',
+          html: 'You have typed wrong password 3 times. Please click <a href="#">here</a> to reset password',
+        };
+        var errors =  [
+          `Wrong password! Please check your email. You have only 1 time to try`
+        ];
+
+        var obj = {
+          msg: msg,
+          errors: errors
+        }
+
+      } else  {
+        var errors = [
+          `Wrong password! You have ${4 - user.wrongLoginCount} times to try`
+        ];
+
+        var obj = {
+          errors: errors
+        }
+      }
+
+      User.findOneAndUpdate(
+        {email: email},
+        {$set:{wrongLoginCount: user.wrongLoginCount + 1}},
+        {new: true},
+        () => {
+          res.json(obj);
+        }
+      )
+      return
     }
-
-    if (!bcrypt.compareSync(password, user.password)) {
-      user.wrongLoginCount++;
-      res.render('auth/login', {
-        errors: [
-          `Wrong password! You have ${4 - user.wrongLoginCount} ${user.wrongLoginCount> 2? 'time' : 'times'} to try`
-        ]
-      });
-      return;
-    }
-
-    user.wrongLoginCount = 0;
-
-    res.cookie('userID', user.id, {
-      signed: true
-    });
-    res.json({
-      email: email
-    });
-    // res.redirect('/');
+    
+    User.findOneAndUpdate(
+      {email: email},
+      {$set:{wrongLoginCount: 0}},
+      {new: true},
+      () => {
+        res.cookie('userID', user.id, {
+          signed: true
+        });
+        res.json({
+          email: email
+        });
+      }
+    )
   }
 }
