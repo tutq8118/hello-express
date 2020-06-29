@@ -31,6 +31,8 @@ const profileRoute = require('./routes/profile.route');
 const cartRoute = require('./routes/cart.route');
 
 const apiBooksRoute = require('./api/routes/book.route');
+const apiAuthRoute = require('./api/routes/auth.route');
+const apiTransactionsRoute = require('./api/routes/transaction.route');
 
 const authMiddleware = require('./middlewares/auth.middleware');
 const cookieMiddleware = require('./middlewares/cookie.middleware');
@@ -53,6 +55,8 @@ app.use('/profile', profileRoute);
 app.use('/cart', cartRoute);
 
 app.use('/api/books', apiBooksRoute);
+app.use('/api/transactions', apiTransactionsRoute);
+app.use('/api/auth', apiAuthRoute);
 
 app.get("/", (request, response) => {
   response.render("");
