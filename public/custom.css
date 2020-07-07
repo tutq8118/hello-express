@@ -63,3 +63,15 @@
       float: right; }
       .navbar__cart ul.dropdown-cart li .item-right button {
         margin-top: 14px; }
+
+.search-form form {
+  display: flex; }
+
+.search-form .form-group {
+  margin-bottom: 0; }
+
+.search-form .form-control {
+  border-radius: .25rem 0 0 .25rem; }
+
+.search-form .btn {
+  border-radius: 0 .25rem .25rem 0; }

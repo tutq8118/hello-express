@@ -98,5 +98,15 @@ module.exports = {
         );
       }
       
+  },
+
+  search: async (req, res, next) => {
+    const q = req.query.q;
+    if (q) {
+      const books = await Book.find({ title: { $regex: q, $options: 'i'}});
+        res.render('books', {
+          books
+        })
+    }
   }
 }

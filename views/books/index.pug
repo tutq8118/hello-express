@@ -4,23 +4,27 @@ block body
   h2.mb-3 List Books
   .book-cards.mb-5
     .row
-      each book in books
-        .col-lg-3.col-md-4.col-sm-6.mb-4
-          .card
-            .card-body
-              figure.card-img.mb-3
-                if (book.coverUrl)
-                  img.card-img-bottom(src=book.coverUrl, alt='')
-                else
-                  img.card-img-bottom(src='https://res.cloudinary.com/tutq8118/image/upload/v1592319239/placeholder-book-cover-default_rkyvcu.png', alt='')  
-              h5.card-title= book.title
-              p.card-text= book.desc
-              .cart-button.text-center
-                a.btn.btn-primary(href='/cart/add/' + book.id) Add to cart
-            if (isAdmin)
-              .card-action
-                a.btn-edit(href=`books/${book.id}/edit`) Edit
-                a.btn-remove(href=`books/${book.id}/remove`) Remove
+      if (books.length)
+        each book in books
+          .col-lg-3.col-md-4.col-sm-6.mb-4
+            .card
+              .card-body
+                figure.card-img.mb-3
+                  if (book.coverUrl)
+                    img.card-img-bottom(src=book.coverUrl, alt='')
+                  else
+                    img.card-img-bottom(src='https://res.cloudinary.com/tutq8118/image/upload/v1592319239/placeholder-book-cover-default_rkyvcu.png', alt='')  
+                h5.card-title= book.title
+                p.card-text= book.desc
+                .cart-button.text-center
+                  a.btn.btn-primary(href='/cart/add/' + book.id) Add to cart
+              if (isAdmin)
+                .card-action
+                  a.btn-edit(href=`books/${book.id}/edit`) Edit
+                  a.btn-remove(href=`books/${book.id}/remove`) Remove
+      else
+        .col-12
+          .alert.alert-info.text-center No item found
   if (totalPage > 1)
     .d-flex.justify-content-center
       - var n = 1;

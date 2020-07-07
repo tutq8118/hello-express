@@ -75,5 +75,21 @@ module.exports = {
         response.redirect('back');
 
       });
+  },
+
+  search: async (req, res, next) => {
+    const q = req.query.q;
+    if (q) {
+      const books = await Book.find({ title: { $regex: q, $options: 'i'}});
+      if (books.length) {
+        res.json({
+          books
+        })
+      } else {
+        res.json({
+          messenger: "no item"
+        })
+      }
+    }
   }
 }

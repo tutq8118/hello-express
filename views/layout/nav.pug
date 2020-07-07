@@ -14,6 +14,11 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
         if (curentUserEmail)
           li.nav-item
             a.nav-link(href='/transactions') Transactions
+      .search-form
+        form(method='GET' action='/books/search')
+          .form-group
+            input(type="text" required name="q" placeholder="Type a book name...").form-control
+          button.btn.btn-primary Search
       .navbar__login.ml-lg-3
         if (userName)
           a(href='/profile').mb-0.navbar__login-text= userName

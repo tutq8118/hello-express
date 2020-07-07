@@ -16,4 +16,6 @@ router.get("/:id/edit", controller.edit);
 
 router.post("/:id/update", upload.single('cover'), controller.update);
 
+router.get("/search", controller.search);
+
 module.exports = router
