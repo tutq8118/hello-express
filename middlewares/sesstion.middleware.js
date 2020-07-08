@@ -23,6 +23,10 @@ module.exports = {
 
     var sessionId = req.signedCookies.sessionId;
     var data = await Session.findById(sessionId);
+    if (!data) {
+      next();
+      return;
+    }
     var sessionCart = data.cart;
     if (!sessionCart) {
       next();
