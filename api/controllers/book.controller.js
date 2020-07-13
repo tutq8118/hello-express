@@ -8,8 +8,18 @@ cloudinary.config({
 
 module.exports = {
   index: async (request, response) => {
-    const books = await Book.find();
-    response.json(books);
+    const page = parseInt(request.query.page) || 1;
+    const limit = parseInt(request.query.limit) || 8;
+
+    const totalBooks = await Book.find();
+    const totalPage = Math.ceil(totalBooks.length / limit);
+    const books = await Book.find().limit(limit).skip(limit * (page - 1));
+    response.json({
+      books: books,
+      limit: limit,
+      page: page,
+      totalPage: totalPage
+    });
   },
   create: (request, response) => {
     const title = request.body.title;
