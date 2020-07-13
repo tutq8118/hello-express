@@ -29,6 +29,7 @@ const transactionsRoute = require('./routes/transaction.route');
 const authRoute = require('./routes/auth.route');
 const profileRoute = require('./routes/profile.route');
 const cartRoute = require('./routes/cart.route');
+const indexRoute = require('./routes/index.route');
 
 const apiBooksRoute = require('./api/routes/book.route');
 const apiAuthRoute = require('./api/routes/auth.route');
@@ -54,6 +55,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/', indexRoute);
 app.use('/users', authMiddleware.requireAuth, usersRoute);
 app.use('/books', booksRoute);
 app.use('/transactions', authMiddleware.requireAuth, transactionsRoute);
@@ -65,9 +67,9 @@ app.use('/api/books', apiBooksRoute);
 app.use('/api/transactions', apiTransactionsRoute);
 app.use('/api/auth', apiAuthRoute);
 
-app.get("/", (request, response) => {
-  response.render("");
-});
+// app.get("/", (request, response) => {
+//   response.render("");
+// });
 
 // listen for requests :)
 

@@ -3,6 +3,11 @@ extend ../layout/default
 block body
 
   h2.mb-3 List Transactions
+  if (messengers)
+    each messenger in messengers
+      .alert.alert-success
+        strong= messenger
+
   if (!transactions)
     p.text-secondary You have no transaction
   else

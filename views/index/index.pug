@@ -1,7 +1,7 @@
 extend ../layout/default
 
 block body
-  h2.mb-3 All Books
+  h2.mb-3 Newest Books
   .book-cards.mb-5
     .row
       if (books.length)
@@ -25,24 +25,3 @@ block body
       else
         .col-12
           .alert.alert-info.text-center No item found
-  if (totalPage > 1)
-    .d-flex.justify-content-center
-      - var n = 1;
-        ul.pagination.text-center
-          while n < totalPage + 1
-            li.page-item
-              a.page-link(href=`/books?page=${n}`)= n++
-  if (isAdmin)
-    h2.mb-3 Create a new book
-    form(method='POST' action='books/create' enctype="multipart/form-data")
-      .form-group 
-        label(for='cover-upload')
-        input.form-control-file#cover-upload(type='file' name='cover')
-      .form-group
-        label(for='book-title') Title*
-        input#book-title.form-control(type='text' name='title' required="required")
-      .form-group
-        label(for='book-desc') Description
-        textarea#book-desc.form-control(type='text' name='desc' rows='4')
-      .form-group.text-right
-        button.btn.btn-primary Create

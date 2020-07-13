@@ -36,13 +36,13 @@ module.exports = {
             console.log("Something wrong when updating data!");
         }
     });
-    res.redirect('/books');
+    res.redirect('back');
   },
   
   checkout: async (req, res, next) => {
     var sessionId = req.signedCookies.sessionId;
     if (!sessionId) {
-      res.redirect('/books');
+      res.redirect('back');
       return;
     }
 
@@ -65,6 +65,10 @@ module.exports = {
             console.log("Something wrong when updating data!");
         }
     });
-    res.redirect('/books');
+    var transactions = await Transaction.find();
+    res.render('transactions', {
+      transactions,
+      messengers: ['Checkout Success!'],
+    });
   }
 }

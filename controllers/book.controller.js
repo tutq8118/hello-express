@@ -8,15 +8,15 @@ cloudinary.config({
 
 module.exports = {
   index: async (request, response) => {
-    // var page = request.query.page || 1;
-    // var perPage = 8;
-    // var start = (page - 1) * perPage;
-    // var end = page * perPage;
-    // const totalPage = Math.floor(db.get("books").value().length / perPage) + 1;
+    const page = request.query.page || 2;
+    const perPage = 12;
 
-    const books = await Book.find();
-    response.render("books", {
-      books
+    const totalBooks = await Book.find();
+    const totalPage = Math.ceil(totalBooks.length / perPage);
+    const books = await Book.find().limit(8).skip(perPage * (page - 1));
+    response.render('books', {
+      books,
+      totalPage
     });
   },
   create: (request, response) => {
