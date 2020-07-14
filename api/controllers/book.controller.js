@@ -10,14 +10,19 @@ module.exports = {
   index: async (request, response) => {
     const page = parseInt(request.query.page) || 1;
     const limit = parseInt(request.query.limit) || 8;
+    const q = request.query.q || "";
 
     const totalBooks = await Book.find();
     const totalPage = Math.ceil(totalBooks.length / limit);
-    const books = await Book.find().limit(limit).skip(limit * (page - 1));
+    const books = await Book.find({ title: { $regex: q, $options: 'i' } })
+      .limit(limit)
+      .skip(limit * (page - 1));
+
     response.json({
       books: books,
       limit: limit,
       page: page,
+      q: q,
       totalPage: totalPage
     });
   },

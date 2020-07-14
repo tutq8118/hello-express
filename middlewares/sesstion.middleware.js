@@ -8,15 +8,18 @@ module.exports = {
       res.cookie('sessionId', sessionId, {
         signed: true
       });
-      var newSession = new Session({
-        _id: sessionId,
-        cart: []
-      });
-      newSession.save().then((r) => {
-        if (r) {
-          console.log(r);
-        }
-      });
+      try {
+        var newSession = new Session({
+          _id: sessionId,
+          cart: [],
+        });
+        var saveSession = await newSession.save();
+        console.log('save done');
+
+      } catch (err) {
+        console.log('error:', err);
+        res.status(500).send(err);
+      }
       next();
       return;
     }

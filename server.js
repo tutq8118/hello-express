@@ -31,6 +31,7 @@ const profileRoute = require('./routes/profile.route');
 const cartRoute = require('./routes/cart.route');
 const indexRoute = require('./routes/index.route');
 
+const apiIndexRoute = require('./api/routes/index.route');
 const apiBooksRoute = require('./api/routes/book.route');
 const apiAuthRoute = require('./api/routes/auth.route');
 const apiTransactionsRoute = require('./api/routes/transaction.route');
@@ -63,6 +64,7 @@ app.use('/auth', authRoute);
 app.use('/profile', profileRoute);
 app.use('/cart', cartRoute);
 
+app.use('/api/index', apiIndexRoute);
 app.use('/api/books', apiBooksRoute);
 app.use('/api/transactions', apiTransactionsRoute);
 app.use('/api/auth', apiAuthRoute);
