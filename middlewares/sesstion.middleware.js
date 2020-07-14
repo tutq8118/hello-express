@@ -3,23 +3,24 @@ const Session = require('../models/session.model');
 
 module.exports = {
   check: async (req, res, next) => {
+    if (req.originalUrl.indexOf('/api') > - 1) {
+      next();
+      return;
+    } 
     if (!req.signedCookies.sessionId) {
       var sessionId = mongoose.Types.ObjectId();
       res.cookie('sessionId', sessionId, {
         signed: true
       });
-      try {
-        var newSession = new Session({
-          _id: sessionId,
-          cart: [],
-        });
-        var saveSession = await newSession.save();
-        console.log('save done');
-
-      } catch (err) {
-        console.log('error:', err);
-        res.status(500).send(err);
-      }
+      var newSession = new Session({
+        _id: sessionId,
+        cart: []
+      });
+      newSession.save().then((r) => {
+        if (r) {
+          console.log('session saved');
+        }
+      });
       next();
       return;
     }

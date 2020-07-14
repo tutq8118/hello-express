@@ -8,14 +8,4 @@ var upload = multer({ dest: 'public/uploads/' });
 
 router.get("/", controller.index);
 
-router.post("/create", controller.create);
-
-router.get("/:id/remove", controller.remove);
-
-router.get("/:id/edit", controller.edit);
-
-router.post("/:id/update", upload.single('cover'), controller.update);
-
-router.get("/search", controller.search);
-
 module.exports = router
