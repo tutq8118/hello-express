@@ -47,7 +47,6 @@ module.exports = {
     }
 
     var sessionCart = req.sessionCart;
-    console.log(sessionCart);
     if (res.locals.totalCart) {
       for (const item of sessionCart) {
         console.log(item);
@@ -63,12 +62,15 @@ module.exports = {
     Session.findOneAndUpdate({_id: sessionId}, {$set:{cart: []}}, {new: true}, (err, doc) => {
         if (err) {
             console.log("Something wrong when updating data!");
+        } else {
+          
         }
     });
-    var transactions = await Transaction.find();
-    res.render('transactions', {
-      transactions,
-      messengers: ['Checkout Success!'],
-    });
+    res.redirect('/transactions')
+    // var transactions = await Transaction.find();
+    // res.render('transactions', {
+    //   transactions,
+    //   messengers: ['Checkout Success!'],
+    // });
   }
 }
